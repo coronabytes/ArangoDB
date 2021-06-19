@@ -9242,14 +9242,19 @@
                 Convert object to string
             </summary>
         </member>
-        <member name="M:Core.Arango.Serialization.IArangoSerializer.Deserialize``1(System.String)">
+        <member name="M:Core.Arango.Serialization.IArangoSerializer.Deserialize``1(System.Byte[])">
             <summary>
                 Convert string to object
             </summary>
         </member>
-        <member name="M:Core.Arango.Serialization.IArangoSerializer.Deserialize(System.String,System.Type)">
+        <member name="M:Core.Arango.Serialization.IArangoSerializer.Deserialize(System.Byte[],System.Type)">
             <summary>
                 Convert string to object
+            </summary>
+        </member>
+        <member name="P:Core.Arango.Serialization.IArangoSerializer.ContentType">
+            <summary>
+             json or vpack
             </summary>
         </member>
         <member name="T:Core.Arango.Serialization.Json.ArangoJsonCamelCasePolicy">
@@ -9281,10 +9286,10 @@
         <member name="M:Core.Arango.Serialization.Json.ArangoJsonSerializer.Serialize(System.Object)">
             <inheritdoc />
         </member>
-        <member name="M:Core.Arango.Serialization.Json.ArangoJsonSerializer.Deserialize``1(System.String)">
+        <member name="M:Core.Arango.Serialization.Json.ArangoJsonSerializer.Deserialize``1(System.Byte[])">
             <inheritdoc />
         </member>
-        <member name="M:Core.Arango.Serialization.Json.ArangoJsonSerializer.Deserialize(System.String,System.Type)">
+        <member name="M:Core.Arango.Serialization.Json.ArangoJsonSerializer.Deserialize(System.Byte[],System.Type)">
             <inheritdoc />
         </member>
         <member name="T:Core.Arango.Serialization.Json.JsonStringEnumMemberConverter">
@@ -9388,10 +9393,33 @@
         <member name="M:Core.Arango.Serialization.Newtonsoft.ArangoNewtonsoftSerializer.Serialize(System.Object)">
             <inheritdoc />
         </member>
-        <member name="M:Core.Arango.Serialization.Newtonsoft.ArangoNewtonsoftSerializer.Deserialize``1(System.String)">
+        <member name="M:Core.Arango.Serialization.Newtonsoft.ArangoNewtonsoftSerializer.Deserialize``1(System.Byte[])">
             <inheritdoc />
         </member>
-        <member name="M:Core.Arango.Serialization.Newtonsoft.ArangoNewtonsoftSerializer.Deserialize(System.String,System.Type)">
+        <member name="M:Core.Arango.Serialization.Newtonsoft.ArangoNewtonsoftSerializer.Deserialize(System.Byte[],System.Type)">
+            <inheritdoc />
+        </member>
+        <member name="T:Core.Arango.Serialization.VelocyPack.ArangoVelocyPackSerializer">
+            <summary>
+                Arango VelocyPack with Newtonsoft
+            </summary>
+        </member>
+        <member name="M:Core.Arango.Serialization.VelocyPack.ArangoVelocyPackSerializer.#ctor(Newtonsoft.Json.Serialization.IContractResolver)">
+            <summary>
+                Arango VelocyPack with Newtonsoft
+            </summary>
+            <param name="resolver">PascalCase or camelCaseResolver</param>
+        </member>
+        <member name="M:Core.Arango.Serialization.VelocyPack.ArangoVelocyPackSerializer.Serialize(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:Core.Arango.Serialization.VelocyPack.ArangoVelocyPackSerializer.Deserialize``1(System.Byte[])">
+            <inheritdoc />
+        </member>
+        <member name="M:Core.Arango.Serialization.VelocyPack.ArangoVelocyPackSerializer.Deserialize(System.Byte[],System.Type)">
+            <inheritdoc />
+        </member>
+        <member name="P:Core.Arango.Serialization.VelocyPack.ArangoVelocyPackSerializer.ContentType">
             <inheritdoc />
         </member>
         <member name="T:Core.Arango.Transport.ArangoHttpTransport">
@@ -9865,6 +9893,324 @@
             <summary>
                 Gets value indicating what is meant to be used
             </summary>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.Close">
+            <summary>
+            Closes this stream and the underlying stream.
+            </summary>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteStartObject">
+            <summary>
+            Writes the beginning of a JSON object.
+            </summary>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteEndObject">
+            <summary>
+            Writes the end of a JSON object.
+            </summary>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteStartArray">
+            <summary>
+            Writes the beginning of a JSON array.
+            </summary>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteEndArray">
+            <summary>
+            Writes the end of an array.
+            </summary>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WritePropertyName(System.String)">
+            <summary>
+            Writes the property name of a name/value pair on a JSON object.
+            </summary>
+            <param name="name">The name of the property.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WritePropertyName(System.String,System.Boolean)">
+            <summary>
+            Writes the property name of a name/value pair on a JSON object.
+            </summary>
+            <param name="name">The name of the property.</param>
+            <param name="escape">A flag to indicate whether the text should be escaped when it is written as a JSON property name.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteEnd">
+            <summary>
+            Writes the end of the current JSON object or array.
+            </summary>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteNull">
+            <summary>
+            Writes a null value.
+            </summary>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteUndefined">
+            <summary>
+            Writes an undefined value.
+            </summary>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteRaw(System.String)">
+            <summary>
+            Writes raw JSON without changing the writer's state.
+            </summary>
+            <param name="json">The raw JSON to write.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteRawValue(System.String)">
+            <summary>
+            Writes raw JSON where a value is expected and updates the writer's state.
+            </summary>
+            <param name="json">The raw JSON to write.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteValue(System.String)">
+            <summary>
+            Writes a <see cref="T:System.String"/> value.
+            </summary>
+            <param name="value">The <see cref="T:System.String"/> value to write.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteValue(System.Int32)">
+            <summary>
+            Writes a <see cref="T:System.Int32"/> value.
+            </summary>
+            <param name="value">The <see cref="T:System.Int32"/> value to write.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteValue(System.UInt32)">
+            <summary>
+            Writes a <see cref="T:System.UInt32"/> value.
+            </summary>
+            <param name="value">The <see cref="T:System.UInt32"/> value to write.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteValue(System.Int64)">
+            <summary>
+            Writes a <see cref="T:System.Int64"/> value.
+            </summary>
+            <param name="value">The <see cref="T:System.Int64"/> value to write.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteValue(System.UInt64)">
+            <summary>
+            Writes a <see cref="T:System.UInt64"/> value.
+            </summary>
+            <param name="value">The <see cref="T:System.UInt64"/> value to write.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteValue(System.Single)">
+            <summary>
+            Writes a <see cref="T:System.Single"/> value.
+            </summary>
+            <param name="value">The <see cref="T:System.Single"/> value to write.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteValue(System.Double)">
+            <summary>
+            Writes a <see cref="T:System.Double"/> value.
+            </summary>
+            <param name="value">The <see cref="T:System.Double"/> value to write.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteValue(System.Boolean)">
+            <summary>
+            Writes a <see cref="T:System.Boolean"/> value.
+            </summary>
+            <param name="value">The <see cref="T:System.Boolean"/> value to write.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteValue(System.Int16)">
+            <summary>
+            Writes a <see cref="T:System.Int16"/> value.
+            </summary>
+            <param name="value">The <see cref="T:System.Int16"/> value to write.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteValue(System.UInt16)">
+            <summary>
+            Writes a <see cref="T:System.UInt16"/> value.
+            </summary>
+            <param name="value">The <see cref="T:System.UInt16"/> value to write.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteValue(System.Char)">
+            <summary>
+            Writes a <see cref="T:System.Char"/> value.
+            </summary>
+            <param name="value">The <see cref="T:System.Char"/> value to write.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteValue(System.Byte)">
+            <summary>
+            Writes a <see cref="T:System.Byte"/> value.
+            </summary>
+            <param name="value">The <see cref="T:System.Byte"/> value to write.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteValue(System.SByte)">
+            <summary>
+            Writes a <see cref="T:System.SByte"/> value.
+            </summary>
+            <param name="value">The <see cref="T:System.SByte"/> value to write.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteValue(System.Decimal)">
+            <summary>
+            Writes a <see cref="T:System.Decimal"/> value.
+            </summary>
+            <param name="value">The <see cref="T:System.Decimal"/> value to write.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteValue(System.DateTime)">
+            <summary>
+            Writes a <see cref="T:System.DateTime"/> value.
+            </summary>
+            <param name="value">The <see cref="T:System.DateTime"/> value to write.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteValue(System.DateTimeOffset)">
+            <summary>
+            Writes a <see cref="T:System.DateTimeOffset"/> value.
+            </summary>
+            <param name="value">The <see cref="T:System.DateTimeOffset"/> value to write.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteValue(System.Guid)">
+            <summary>
+            Writes a <see cref="T:System.Guid"/> value.
+            </summary>
+            <param name="value">The <see cref="T:System.Guid"/> value to write.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteValue(System.TimeSpan)">
+            <summary>
+            Writes a <see cref="T:System.TimeSpan"/> value.
+            </summary>
+            <param name="value">The <see cref="T:System.TimeSpan"/> value to write.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteValue(System.Nullable{System.Int32})">
+            <summary>
+            Writes a <see cref="T:System.Nullable`1"/> value.
+            </summary>
+            <param name="value">The <see cref="T:System.Nullable`1"/> value to write.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteValue(System.Nullable{System.UInt32})">
+            <summary>
+            Writes a <see cref="T:System.Nullable`1"/> value.
+            </summary>
+            <param name="value">The <see cref="T:System.Nullable`1"/> value to write.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteValue(System.Nullable{System.Int64})">
+            <summary>
+            Writes a <see cref="T:System.Nullable`1"/> value.
+            </summary>
+            <param name="value">The <see cref="T:System.Nullable`1"/> value to write.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteValue(System.Nullable{System.UInt64})">
+            <summary>
+            Writes a <see cref="T:System.Nullable`1"/> value.
+            </summary>
+            <param name="value">The <see cref="T:System.Nullable`1"/> value to write.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteValue(System.Nullable{System.Single})">
+            <summary>
+            Writes a <see cref="T:System.Nullable`1"/> value.
+            </summary>
+            <param name="value">The <see cref="T:System.Nullable`1"/> value to write.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteValue(System.Nullable{System.Double})">
+            <summary>
+            Writes a <see cref="T:System.Nullable`1"/> value.
+            </summary>
+            <param name="value">The <see cref="T:System.Nullable`1"/> value to write.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteValue(System.Nullable{System.Boolean})">
+            <summary>
+            Writes a <see cref="T:System.Nullable`1"/> value.
+            </summary>
+            <param name="value">The <see cref="T:System.Nullable`1"/> value to write.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteValue(System.Nullable{System.Int16})">
+            <summary>
+            Writes a <see cref="T:System.Nullable`1"/> value.
+            </summary>
+            <param name="value">The <see cref="T:System.Nullable`1"/> value to write.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteValue(System.Nullable{System.UInt16})">
+            <summary>
+            Writes a <see cref="T:System.Nullable`1"/> value.
+            </summary>
+            <param name="value">The <see cref="T:System.Nullable`1"/> value to write.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteValue(System.Nullable{System.Char})">
+            <summary>
+            Writes a <see cref="T:System.Nullable`1"/> value.
+            </summary>
+            <param name="value">The <see cref="T:System.Nullable`1"/> value to write.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteValue(System.Nullable{System.Byte})">
+            <summary>
+            Writes a <see cref="T:System.Nullable`1"/> value.
+            </summary>
+            <param name="value">The <see cref="T:System.Nullable`1"/> value to write.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteValue(System.Nullable{System.SByte})">
+            <summary>
+            Writes a <see cref="T:System.Nullable`1"/> value.
+            </summary>
+            <param name="value">The <see cref="T:System.Nullable`1"/> value to write.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteValue(System.Nullable{System.Decimal})">
+            <summary>
+            Writes a <see cref="T:System.Nullable`1"/> value.
+            </summary>
+            <param name="value">The <see cref="T:System.Nullable`1"/> value to write.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteValue(System.Nullable{System.DateTime})">
+            <summary>
+            Writes a <see cref="T:System.Nullable`1"/> value.
+            </summary>
+            <param name="value">The <see cref="T:System.Nullable`1"/> value to write.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteValue(System.Nullable{System.DateTimeOffset})">
+            <summary>
+            Writes a <see cref="T:System.Nullable`1"/> value.
+            </summary>
+            <param name="value">The <see cref="T:System.Nullable`1"/> value to write.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteValue(System.Nullable{System.Guid})">
+            <summary>
+            Writes a <see cref="T:System.Nullable`1"/> value.
+            </summary>
+            <param name="value">The <see cref="T:System.Nullable`1"/> value to write.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteValue(System.Nullable{System.TimeSpan})">
+            <summary>
+            Writes a <see cref="T:System.Nullable`1"/> value.
+            </summary>
+            <param name="value">The <see cref="T:System.Nullable`1"/> value to write.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteValue(System.Byte[])">
+            <summary>
+            Writes a <see cref="T:System.Byte"/>[] value.
+            </summary>
+            <param name="value">The <see cref="T:System.Byte"/>[] value to write.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.SliceWriter.WriteValue(System.Uri)">
+            <summary>
+            Writes a <see cref="T:System.Uri"/> value.
+            </summary>
+            <param name="value">The <see cref="T:System.Uri"/> value to write.</param>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.Utils.NumberUtil.ReadVariableValueLength(System.Byte[],System.Int32,System.Boolean)">
+            read a variable length integer in unsigned LEB128 format
+        </member>
+        <member name="M:ArangoDB.VelocyPack.Utils.NumberUtil.GetVariableValueLength(System.Int64)">
+            calculate the length of a variable length integer in unsigned LEB128 format
+        </member>
+        <member name="P:ArangoDB.VelocyPack.VPackSlice.Length">
+            <summary>
+            Return the number of members for an Array, Object or String
+            </summary>
+        </member>
+        <member name="M:ArangoDB.VelocyPack.VPackSlice.FindDataOffset">
+            <summary>
+            Must be called for a nonempty array or object at start():
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:ArangoDB.VelocyPack.VPackSlice.Item(System.Int32)">
+            <summary>
+            Return array value at the specified index
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="P:ArangoDB.VelocyPack.VPackSlice.Item(System.String)">
+            <summary>
+            Return object by attribute name
+            </summary>
+            <param name="attribute"></param>
+            <returns></returns>
         </member>
     </members>
 </doc>

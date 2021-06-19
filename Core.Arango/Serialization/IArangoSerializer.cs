@@ -10,16 +10,21 @@ namespace Core.Arango.Serialization
         /// <summary>
         ///     Convert object to string
         /// </summary>
-        public string Serialize(object value);
+        public byte[] Serialize(object value);
 
         /// <summary>
         ///     Convert string to object
         /// </summary>
-        public T Deserialize<T>(string value);
+        public T Deserialize<T>(byte[] value);
 
         /// <summary>
         ///     Convert string to object
         /// </summary>
-        public object Deserialize(string value, Type type);
+        public object Deserialize(byte[] value, Type type);
+
+        /// <summary>
+        ///  json or vpack
+        /// </summary>
+        public string ContentType { get; }
     }
 }

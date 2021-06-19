@@ -24,21 +24,23 @@ namespace Core.Arango.Serialization.Json
         }
 
         /// <inheritdoc />
-        public string Serialize(object value)
+        public byte[] Serialize(object value)
         {
-            return JsonSerializer.Serialize(value, _options);
+            return JsonSerializer.SerializeToUtf8Bytes(value, _options);
         }
 
         /// <inheritdoc />
-        public T Deserialize<T>(string value)
+        public T Deserialize<T>(byte[] value)
         {
             return JsonSerializer.Deserialize<T>(value, _options);
         }
 
         /// <inheritdoc />
-        public object Deserialize(string v, Type t)
+        public object Deserialize(byte[] v, Type t)
         {
             return JsonSerializer.Deserialize(v, t, _options);
         }
+
+        public string ContentType => "application/json";
     }
 }

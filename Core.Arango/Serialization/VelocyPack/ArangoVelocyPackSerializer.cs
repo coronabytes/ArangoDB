@@ -1,51 +1,52 @@
 ﻿using System;
-using System.Text;
+using ArangoDB.VelocyPack;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace Core.Arango.Serialization.Newtonsoft
+namespace Core.Arango.Serialization.VelocyPack
 {
     /// <summary>
-    ///     Arango Json Serializer with Newtonsoft
+    ///     Arango VelocyPack with Newtonsoft
     /// </summary>
-    public class ArangoNewtonsoftSerializer : IArangoSerializer
+    public class ArangoVelocyPackSerializer : IArangoSerializer
     {
         private readonly JsonSerializerSettings _settings;
 
         /// <summary>
-        ///     Arango Json Serializer with Newtonsoft
+        ///     Arango VelocyPack with Newtonsoft
         /// </summary>
         /// <param name="resolver">PascalCase or camelCaseResolver</param>
-        public ArangoNewtonsoftSerializer(IContractResolver resolver)
+        public ArangoVelocyPackSerializer(IContractResolver resolver)
         {
-            _settings = new JsonSerializerSettings
+            /*_settings = new JsonSerializerSettings
             {
                 ContractResolver = resolver,
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                 Formatting = Formatting.None,
                 DateFormatHandling = DateFormatHandling.IsoDateFormat,
                 DateTimeZoneHandling = DateTimeZoneHandling.Utc
-            };
+            };*/
         }
 
         /// <inheritdoc />
         public byte[] Serialize(object value)
         {
-            return Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(value, _settings));
+            return VPack.Serialize(value);
         }
 
         /// <inheritdoc />
         public T Deserialize<T>(byte[] value)
         {
-            return JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(value), _settings);
+            return VPack.Deserialize<T>(value);
         }
 
         /// <inheritdoc />
         public object Deserialize(byte[] v, Type t)
         {
-            return JsonConvert.DeserializeObject(Encoding.UTF8.GetString(v), t, _settings);
+            return VPack.Deserialize(v, t);
         }
 
-        public string ContentType => "application/json";
+        /// <inheritdoc />
+        public string ContentType => "application/x-velocypack";
     }
 }

@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading;
@@ -48,22 +49,24 @@ namespace Core.Arango.Transport
             if (body != null)
             {
                 var json = _configuration.Serializer.Serialize(body);
-                msg.Content = new StringContent(json, Encoding.UTF8,
-                    "application/json");
+                msg.Content = new ByteArrayContent(json);
             }
             else
             {
                 msg.Headers.Add(HttpRequestHeader.ContentLength.ToString(), "0");
             }
 
+            msg.Headers.Remove("Content-Type");
+            msg.Headers.Add("Content-Type", _configuration.Serializer.ContentType);
+
             var res = await _httpClient.SendAsync(msg, cancellationToken);
 
             if (!res.IsSuccessStatusCode)
                 if (throwOnError)
                 {
-                    var errorContent = await res.Content.ReadAsStringAsync();
+                    var errorContent = await res.Content.ReadAsByteArrayAsync();
                     var error = _configuration.Serializer.Deserialize<ErrorResponse>(errorContent);
-                    throw new ArangoException(errorContent, error.ErrorMessage,
+                    throw new ArangoException(Encoding.UTF8.GetString(errorContent), error.ErrorMessage,
                         (HttpStatusCode) error.Code, (ArangoErrorCode) error.ErrorNum);
                 }
                 else
@@ -71,16 +74,16 @@ namespace Core.Arango.Transport
                     return default;
                 }
 
-            var content = await res.Content.ReadAsStringAsync();
+            var content = await res.Content.ReadAsByteArrayAsync();
 
             if (res.Headers.Contains("X-Arango-Error-Codes"))
             {
                 var errors = _configuration.Serializer.Deserialize<IEnumerable<ErrorResponse>>(content)
                     .Select(error => new ArangoError(error.ErrorMessage, (ArangoErrorCode) error.ErrorNum));
-                throw new ArangoException(content, errors);
+                throw new ArangoException(Encoding.UTF8.GetString(content), errors);
             }
 
-            if (content == "{}" || string.IsNullOrWhiteSpace(content))
+            if (content == null || content.Length == 0 )
                 return default;
 
             return _configuration.Serializer.Deserialize<T>(content);
@@ -103,9 +106,9 @@ namespace Core.Arango.Transport
             if (!res.IsSuccessStatusCode)
                 if (throwOnError)
                 {
-                    var errorContent = await res.Content.ReadAsStringAsync();
+                    var errorContent = await res.Content.ReadAsByteArrayAsync();
                     var error = _configuration.Serializer.Deserialize<ErrorResponse>(errorContent);
-                    throw new ArangoException(errorContent, error.ErrorMessage,
+                    throw new ArangoException(Encoding.UTF8.GetString(errorContent), error.ErrorMessage,
                         (HttpStatusCode) error.Code, (ArangoErrorCode) error.ErrorNum);
                 }
 
@@ -124,10 +127,12 @@ namespace Core.Arango.Transport
             ApplyHeaders(transaction, auth, msg, headers);
 
             if (body != null)
-                msg.Content = new StringContent(_configuration.Serializer.Serialize(body), Encoding.UTF8,
-                    "application/json");
+                msg.Content = new ByteArrayContent(_configuration.Serializer.Serialize(body));
             else
                 msg.Headers.Add(HttpRequestHeader.ContentLength.ToString(), "0");
+
+            msg.Headers.Remove("Content-Type");
+            msg.Headers.Add("Content-Type", _configuration.Serializer.ContentType);
 
             var res = await _httpClient.SendAsync(msg, cancellationToken);
 
@@ -136,9 +141,9 @@ namespace Core.Arango.Transport
                     throw new ArgumentException(await res.Content.ReadAsStringAsync());
                 else return default;
 
-            var content = await res.Content.ReadAsStringAsync();
+            var content = await res.Content.ReadAsByteArrayAsync();
 
-            if (content == "{}" || string.IsNullOrWhiteSpace(content))
+            if (content == null || content.Length == 0)
                 return default;
 
             return _configuration.Serializer.Deserialize(content, type);
